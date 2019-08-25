@@ -12,7 +12,7 @@
 
         <?php
           $links = [
-            'Home', 'About', 'Track', 'Help', 'Pricing'
+            'Home', 'About', 'Track', 'Help', 'Ship', 'Pricing'
           ];
         ?>
 
