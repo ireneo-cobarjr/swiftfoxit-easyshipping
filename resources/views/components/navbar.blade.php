@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-transparent" id="navbar">
   <div class="container">
-    <a class="navbar-brand" href="#">
+    <a class="navbar-brand" href="/">
       <img src="img/logo_new_white.png" alt="header logo">
     </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">

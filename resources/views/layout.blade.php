@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="css/app.css">
 
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/png" href="img/favicon_dark.png"/>
     <title>
       Easy Shipping - 
       @yield('title')
@@ -22,8 +24,11 @@
     {{-- navbar --}}
     @include('components.navbar')
 
-    @yield('content')
+    <div id="main">
+        @yield('content')
+    </div>
 
+    @include('components.footer')
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

@@ -8,8 +8,17 @@
     font-family: 'Font Awesome 5 Brands';
 }
 
-body {
-	position: relative;
+html {
+    height: 100%;
+
+    body {
+        position: relative;
+        min-height: 100%;
+        
+        #main {
+            min-height: 35vh;
+        }
+    }
 }
 
 #navbar {
@@ -269,6 +278,25 @@ body {
     
     .notice {
         transition: all 0.4s linear;
+    }
+}
+
+
+footer {
+    margin-top: 15em;
+    
+    .footer {
+        border-top: 1px solid #CCCCCC;
+        padding-bottom: 2.4em;
+    }
+    
+    .footer-list {
+         list-style-type: none;
+         padding: 0;
+    }
+
+    .copyright {
+        margin-bottom: -27px;
     }
 }
 
