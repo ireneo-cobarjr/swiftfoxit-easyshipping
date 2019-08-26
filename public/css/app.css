@@ -5810,7 +5810,7 @@ html body {
 }
 
 html body #main {
-  min-height: 35vh;
+  min-height: 50vh;
 }
 
 #navbar {
@@ -6069,7 +6069,7 @@ html body #main {
 }
 
 footer {
-  margin-top: 15em;
+  margin-top: 5em;
 }
 
 footer .footer {
@@ -6084,5 +6084,54 @@ footer .footer-list {
 
 footer .copyright {
   margin-bottom: -27px;
+}
+
+.how-it-works {
+  margin-top: 1.8em;
+}
+
+.how-it-works .green-text {
+  color: #28a745;
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+.how-it-works .hiw-title {
+  font-weight: 700;
+}
+
+.how-it-works .hiw-desc {
+  font-size: 0.9rem;
+  text-align: justify;
+  padding: 0 1.5em;
+}
+
+.how-it-works .hiw-img {
+  position: relative;
+  z-index: 5;
+}
+
+.how-it-works .hiw-img::before {
+  position: absolute;
+  content: "";
+  top: 50%;
+  border: 1px solid #E5E5E5;
+  height: 1px;
+  z-index: -1;
+}
+
+.how-it-works #img-1::before {
+  width: calc(50% + 16px);
+  left: 50%;
+}
+
+.how-it-works #img-2::before {
+  width: calc(100% + 32px);
+  left: -16px;
+}
+
+.how-it-works #img-3::before {
+  width: calc(50% + 16px);
+  right: 50%;
 }
 

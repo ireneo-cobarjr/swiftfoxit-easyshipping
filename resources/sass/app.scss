@@ -16,7 +16,7 @@ html {
         min-height: 100%;
         
         #main {
-            min-height: 35vh;
+            min-height: 50vh;
         }
     }
 }
@@ -283,7 +283,7 @@ html {
 
 
 footer {
-    margin-top: 15em;
+    margin-top: 5em;
     
     .footer {
         border-top: 1px solid #CCCCCC;
@@ -298,5 +298,59 @@ footer {
     .copyright {
         margin-bottom: -27px;
     }
+}
+
+.how-it-works {
+    margin-top: 1.8em;
+    
+    .green-text {
+        color: #28a745;
+        margin-top: 1em;
+        margin-bottom: 1em;
+    }
+    
+    .hiw-title {
+        font-weight: 700;
+    }
+    
+    .hiw-desc {
+        font-size: .9rem;
+        text-align: justify;
+        padding: 0 1.5em;
+    }
+    
+    .hiw-img {
+        position: relative;
+        z-index: 5;
+        
+        &::before {
+            position: absolute;
+            content: '';
+            top: 50%;
+            border: 1px solid #E5E5E5;
+            height: 1px;
+            z-index: -1;
+        }
+    }
+    
+    #img-1 {
+        &::before {
+            width: calc(50% + 16px);
+            left: 50%;
+        }
+    }
+    #img-2 {
+        &::before {
+            width: calc(100% + 32px);
+            left: -16px;
+        }
+    }
+    #img-3 {
+        &::before {
+            width: calc(50% + 16px);
+            right: 50%;
+        }
+    }
+    
 }
 
