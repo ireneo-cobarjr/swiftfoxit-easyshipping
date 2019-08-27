@@ -19460,7 +19460,6 @@ window.onload = function () {
       document.getElementById('summary-to-country').innerHTML = "".concat(Shipment.to.flag, " ").concat(Shipment.to.country);
       document.getElementById('summary-to-address').innerHTML = Shipment.to.address;
       document.getElementById('summary-to-csz').innerHTML = "".concat(Shipment.to.city, ", ").concat(Shipment.to.state, " ").concat(Shipment.to.zip);
-      console.log(Shipment);
       setTimeout(function () {
         step2.classList.add('throw-off');
         step3.classList.remove('throw-off');
@@ -19599,33 +19598,19 @@ window.onload = function () {
         return b.classList.remove('clicked');
       });
       btn.classList.add('clicked');
-      var a = document.getElementById('show-hide');
-
-      if (a.classList.contains('hide')) {
-        a.classList.remove('throw-off', 'hide');
-        a.classList.add('show');
-      }
-
-      document.getElementById('default-notice').classList.remove('show');
-      document.getElementById('basic-notice').classList.remove('throw-off');
-      setTimeout(function () {
-        document.getElementById('default-notice').classList.add('throw-off');
-        document.getElementById('basic-notice').classList.remove('hide');
-        document.getElementById('basic-notice').classList.add('show');
-      }, 400);
+      Array.prototype.forEach.call(document.getElementsByClassName('misc-on-select'), function (a) {
+        if (a.classList.contains('hide')) {
+          a.classList.remove('hide');
+        }
+      });
+      var r = document.getElementById('on-doc-only');
 
       if (btn.getAttribute('id') == 'docs-btn') {
-        document.getElementById('docs-notice').classList.remove('throw-off');
-        setTimeout(function () {
-          document.getElementById('docs-notice').classList.add('show');
-          document.getElementById('docs-notice').classList.remove('hide');
-        }, 400);
+        r.classList.remove('hide', 'throw-off');
+        r.classList.add('show');
       } else {
-        document.getElementById('docs-notice').classList.remove('show');
-        document.getElementById('docs-notice').classList.add('hide');
-        setTimeout(function () {
-          document.getElementById('docs-notice').classList.add('throw-off');
-        }, 400);
+        r.classList.add('hide', 'throw-off');
+        r.classList.remove('show');
       }
     });
   });
@@ -19706,7 +19691,6 @@ window.onload = function () {
     gray.appendChild(row);
     box.appendChild(gray);
     document.getElementById('box-area').appendChild(box);
-    console.log(bB);
   }
 };
 

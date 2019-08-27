@@ -229,8 +229,6 @@ window.onload = function () {
                 document.getElementById('summary-to-address').innerHTML = Shipment.to.address;
                 document.getElementById('summary-to-csz').innerHTML = `${Shipment.to.city}, ${Shipment.to.state} ${Shipment.to.zip}`;
 
-                console.log(Shipment);
-
                 setTimeout(() => {
                     step2.classList.add('throw-off');
                     step3.classList.remove('throw-off');
@@ -381,37 +379,22 @@ window.onload = function () {
         btn.addEventListener('click', () => {
             Array.prototype.forEach.call(psuedoBtn1, b => b.classList.remove('clicked'));
             btn.classList.add('clicked');
-            
-            const a = document.getElementById('show-hide');
-            if (a.classList.contains('hide')) {
-                a.classList.remove('throw-off', 'hide');
-                a.classList.add('show');
-            }
-            
-            document.getElementById('default-notice').classList.remove('show');
-            document.getElementById('basic-notice').classList.remove('throw-off');
-            
-            setTimeout(() => {
-                document.getElementById('default-notice').classList.add('throw-off');
-                document.getElementById('basic-notice').classList.remove('hide');
-                document.getElementById('basic-notice').classList.add('show');
-            }, 400);
 
-            
+            Array.prototype.forEach.call( document.getElementsByClassName('misc-on-select'), a => {
+                    if (a.classList.contains('hide')) {
+                        a.classList.remove('hide');
+                    }
+            });
+            var r = document.getElementById('on-doc-only');
             if (btn.getAttribute('id') == 'docs-btn') {
-                document.getElementById('docs-notice').classList.remove('throw-off');
-                setTimeout(() => {
-                    document.getElementById('docs-notice').classList.add('show');
-                    document.getElementById('docs-notice').classList.remove('hide');
-                }, 400);
+                r.classList.remove('hide', 'throw-off');
+                r.classList.add('show');
             } else {
-                document.getElementById('docs-notice').classList.remove('show');
-                document.getElementById('docs-notice').classList.add('hide');
-                setTimeout(() => {
-                    document.getElementById('docs-notice').classList.add('throw-off');
-                }, 400);
+                r.classList.add('hide', 'throw-off');
+                r.classList.remove('show');
             }
         });
+        
     });
     
     document.getElementById('add-package').addEventListener('click', e => {
@@ -504,6 +487,5 @@ window.onload = function () {
         gray.appendChild(row);
         box.appendChild(gray);
         document.getElementById('box-area').appendChild(box);
-        console.log(bB);
     }
 }
