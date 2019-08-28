@@ -190,19 +190,25 @@ html {
     }
 }
 
-.misc {
-    padding: .5em .8em;
-    margin-top: 2em;
-    
-    .misc-aside {
-        line-height: 0.9;
-        display: inline-block;
-        text-align: justify;
-        width: 98%;
-        line-height: .9;
-        margin-top: .3em;
+.step3-cont {
+    position: relative;
+
+    .misc {
+        padding: .5em .8em;
+        margin-top: 2em;
+        
+        .misc-aside {
+            line-height: 0.9;
+            display: inline-block;
+            text-align: justify;
+            width: 98%;
+            line-height: .9;
+            margin-top: .3em;
+        }
     }
 }
+
+
 .border-gray-panel {
     border: 1px solid #b3b3b3;
     padding: .8em;
@@ -442,4 +448,86 @@ footer {
         height: 16px;
         width: 16px;
     }
+}
+
+@import '~js-datepicker/src/datepicker';
+#date-picker-container {
+    height: 300px;
+}
+.qs-datepicker-container {
+    width: 95%;
+    box-shadow: none;
+    border-color: $pale-green;
+    border-radius: 0;
+}
+.qs-datepicker {
+    
+    .qs-arrow {
+    
+        &.qs-right::after {
+            border-left-color: white;
+        }
+        &.qs-left::after {
+            border-right-color: white;
+        }
+    }
+
+    .qs-controls {
+        background: $dark-green;
+        color: white;
+        padding: .5em;
+    }
+
+    .qs-square {
+        margin-top: .25em;
+        margin-bottom: .25em;
+        border-radius: 0;
+        
+        &:not(.qs-empty):not(.qs-disabled):not(.qs-day):not(.qs-active):hover {
+            background: $dark-green;
+            color: white;
+        }
+        
+        &.qs-active {
+            background: $light-pale-green;
+        }
+    }
+}
+
+.delivery-details {
+    margin-top: -1em;
+    background-color: #E9E9E9;
+    padding: 1rem;
+    height: 250px;
+    
+    .delivery-date {
+        font-weight: 700;
+        font-size: 2.5rem;
+    }
+    .dd-head {
+        display: inline-block;
+        width: 100%;
+        background: #208C83;
+        color: white;
+    }
+    
+    #delivered-on {
+        margin-left: .5em;
+    }
+    
+    #final-rate {
+        width: calc(100% - 250px);
+        height: 100%;
+        background-color: #f2f2f2;
+        padding: .5em;
+        border-radius: 5px;
+    }
+    
+    #rate {
+        display: block;
+        font-size: 2.5rem;
+        text-align: center;
+        margin-top: 15px;
+    }
+   
 }

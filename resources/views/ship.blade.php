@@ -22,7 +22,7 @@
                     @include('shipment.step1')
                     @include('shipment.step2')
                     @include('shipment.step3')
-                    <div class="d-flex flex-row-reverse mt-5">
+                    <div class="d-flex flex-row-reverse mt-5" id="end-on-final">
                         <button class="btn btn-success" id="create-shipment-next" id-process="step1">Next</button>
                     </div>
                 </div>

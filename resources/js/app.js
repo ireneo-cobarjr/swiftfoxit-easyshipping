@@ -6,6 +6,7 @@
 
 require('./bootstrap');
 import Countries from 'countries-list';
+import datepicker from 'js-datepicker';
 
 const globalCounters = {
     phone: {
@@ -17,6 +18,39 @@ const globalCounters = {
 };
 
 window.onload = function () {
+    var old_date = '';
+    const picker = datepicker('#date-picker', { 
+        alwaysShow: true,
+        minDate: new Date(),
+        dateSelected: new Date(),
+        showAllDates: true,
+        onSelect: (picker, d) => {
+            var date = new Date(d);
+            if (d) {
+                old_date = d;
+                setDD(date);
+            } else {
+                picker.setDate(new Date(old_date), true);
+            }
+        }
+    });
+    
+    setDD(new Date(document.getElementById('date-picker').value));
+    function setDD(d) {
+        var date = document.querySelector('.delivery-date');
+        var day = document.querySelector('.delivery-day');
+        var year = document.querySelector('.delivery-year');
+        var month = document.querySelector('.delivery-month');
+        
+        var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+        var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        
+        date.innerHTML = d.getDate();
+        day.innerHTML = days[d.getDay()];
+        year.innerHTML = d.getFullYear();
+        month.innerHTML = months[d.getMonth()];
+    }
+    
     const Shipment = {
         from: {
                 country: '',
@@ -80,10 +114,19 @@ window.onload = function () {
             step2.classList.remove('hide');
             step2.classList.add('show');
             document.querySelector('.card-type').classList.add('card-mid-divided');
+            const misc = document.querySelector('.misc');
+            const final = document.querySelector('#final');
+            misc.classList.remove('throw-off', 'hide');
+            final.classList.add('throw-off', 'hide');
+            misc.classList.add('show');
+            final.classList.remove('show');
+
+
         }, 500);
         
         crtShipBtn.setAttribute('id-process', 'step2');
         crtShipBtn.innerHTML = "Next";
+        document.getElementById('end-on-final').classList.remove('hide');
     });
     
     crtShipBtn.addEventListener('click', e => {
@@ -98,9 +141,32 @@ window.onload = function () {
                 case 'step2':
                 fromStep2();
                 crtShipBtn.innerHTML = "Get Quote";
+                break;
+                
+                case 'step3':
+                getQuotes();
+                break;
                 
                 default:
                 break;
+            }
+            
+            function getQuotes() {
+                const misc = document.querySelector('.misc');
+                const final = document.querySelector('#final');
+                
+                misc.classList.add('hide');
+                misc.classList.remove('show');
+                final.classList.remove('throw-off');
+
+                setTimeout(() => {
+                    misc.classList.add('throw-off');
+                    final.classList.remove('hide');
+                    final.classList.add('show');
+                }, 500);
+
+                crtShipBtn.setAttribute('id-process', 'final');
+                document.getElementById('end-on-final').classList.add('hide');
             }
             
             function fromStep1() {
