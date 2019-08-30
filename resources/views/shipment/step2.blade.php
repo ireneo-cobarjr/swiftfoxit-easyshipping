@@ -48,7 +48,6 @@
                             </div>
                         </div>
                     </div>
-                    <button class="btn btn-dark btn-sm float-left" id="add-phone-from" style="padding: .1em .25em"><i class="fas fa-plus-square"></i> Phone</button>
                 </div>
             </div>
         </div>
@@ -102,7 +101,6 @@
                             </div>
                         </div>
                     </div>
-                    <button class="btn btn-dark btn-sm float-left" id="add-phone-to" style="padding: .1em .25em"><i class="fas fa-plus-square"></i> Phone</button>
                 </div>
             </div>
         </div>

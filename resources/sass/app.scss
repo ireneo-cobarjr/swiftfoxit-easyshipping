@@ -4,6 +4,9 @@ $pale-green: #3EB996;
 $light-pale-green: #4BE9C3;
 $dark-green: #208C83;
 
+$dark-blue: #0D47A1;
+$light-blue: #90CAF9;
+
 //FA fixes
 .fa, .fas {
     font-family: 'Font Awesome 5 Free';
@@ -29,11 +32,28 @@ html {
     font-size: .9rem;
 }
 
+.btn-yellow {
+    color: black;
+    border-color: #F5D416;
+    background-color: #F5D416;
+}
+
+.btn-blue {
+    color: white;
+    border-color: $dark-blue;
+    background-color: $dark-blue;
+    
+    &:hover {
+        colo: white !important;
+    }
+}
+
 #navbar {
 	position: absolute;
 	top: 0;
 	left: 0;
 	width: 100vw;
+    z-index: 100;
 }
 
 .nav-link {
@@ -45,9 +65,23 @@ html {
 	height: 125px;
 	width: 100vw;
 	background-color: gray;
-	background-image: url("img/inner_header.png");
+	background-image: url("img/inner_header_gray.png");
 	background-repeat: no-repeat;
 	background-size: cover;
+    position: relative;
+    z-index: 1;
+    
+    &::before {
+        position: absolute;
+        top: 0;
+        left: 0;
+        content: "";
+        display: block;
+        width: 100%;
+        height: 100%;
+        background-image: linear-gradient(160deg,#263238 5%, #1E88E5, #0D47A1);
+        z-index: -1;
+    }
 }
 
 #home-banner {
@@ -122,7 +156,7 @@ html {
     width:  100%;
     margin-top: -15px;
     background-color: #E9E9E9;
-	background-image: url("img/inner_header.png");
+	background-image: url("img/inner_header_gray.png");
     position: relative;
     z-index: 5;
     
@@ -133,9 +167,8 @@ html {
         z-index: -1;
         width: 100%;
         height: 100%;
-        background-color: black;
-        opacity: .25;
-    }
+        background-image: linear-gradient(to top right, #263238 5%, #37474F,#263238);
+            }
     .summary-div {
         padding: .5em 1em;
     }
@@ -171,7 +204,7 @@ html {
     }
 }
 .pseudo-btn-1 {
-    border: 1px solid $pale-green;
+    border: 1px solid $light-blue;
     padding: 0.5em 0.8em;
     width: 98%;
     color: black;
@@ -180,12 +213,12 @@ html {
     transition: all 0.4s linear;
     
     &:hover {
-        background-color: $light-pale-green;
+        background-color: $light-blue;
     }
     
     &.clicked {
-        background-color: $dark-green !important;
-        border-color: $dark-green !important;
+        background-color: $dark-blue !important;
+        border-color: $dark-blue !important;
         color: white !important;
     }
 }
@@ -531,3 +564,52 @@ footer {
     }
    
 }
+
+.unit-changer {
+    display: inline-block;
+    position: relative;
+    transition: all 0.4s linear;
+    color: #6c757d;
+    
+    &:hover {
+        color: black;
+    }
+    
+    .unit-menu {
+        position: absolute;
+        display: inline-block;
+        top: 110%;
+        left: 0;
+        background: white;
+        opacity: 0;
+        z-index: -1;
+        min-width: 120%;
+        padding: .5em;
+        
+        &.show-menu {
+            opacity: 1 !important;
+            z-index: 1 !important;
+            
+            span {
+                color: #6c757d;
+                width: calc(100% + 1em);
+                text-align: center;
+                padding: .2em 0;
+                margin-left: -.5em;
+                 &:hover {
+                    color: #3b4044;
+                    background: #F2F2F2;
+                 }
+            }
+        }
+    }
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+.card-style-shadow {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+

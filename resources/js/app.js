@@ -96,7 +96,7 @@ window.onload = function () {
         for ( const C in c ) {
             let option = document.createElement('option');
             option.value = C;
-            option.innerHTML = `${c[C].emoji}   ${c[C].name}`;
+            option.innerHTML = `${c[C].name}`;
             s.appendChild(option);
         }
 	});
@@ -194,7 +194,7 @@ window.onload = function () {
                 
                 //save data --to
                 Shipment.to.country = Countries.countries[cCodeT].name;
-                Shipment.to.cc = cCodeF;
+                Shipment.to.cc = cCodeT;
                 Shipment.to.flag = Countries.countries[cCodeT].emoji;
                 Shipment.to.phone.code = Countries.countries[cCodeT].phone;
                 Shipment.to.address = document.getElementById('to-address').value;
@@ -305,141 +305,7 @@ window.onload = function () {
                 crtShipBtn.setAttribute('id-process', 'step3');
             }
     });
-    
-    const addPhoneFromBtn = document.getElementById('add-phone-from');
-    const addPhoneToBtn = document.getElementById('add-phone-to');
-    
-    addPhoneFromBtn.addEventListener('click', e => {
-        e.preventDefault();
-        let cCode = document.getElementById('from-country').value;
-        var aCode = Countries.countries[cCode].phone;
-        addPhone('from', aCode, document.getElementById('from-phone-area'));
-    });
-    
-    addPhoneToBtn.addEventListener('click', e => {
-        e.preventDefault();
-        let cCode = document.getElementById('to-country').value;
-        var aCode = Countries.countries[cCode].phone;
-        addPhone('to', aCode, document.getElementById('to-phone-area'));
-    });
-    
-
-
-    function addPhone(x, A, P) {
-        var counter = globalCounters.phone[x];
-        globalCounters.phone[x] = counter + 1;
-        var set = {
-            type: '',
-            code: '',
-            number: '',
-            ext: ''
-        };
-        const mCont = document.createElement('div');
-        const type = document.createElement('div');
-        const code = document.createElement('div');
-        const phone = document.createElement('div');
-        const ext = document.createElement('div');
-        let fg1 = document.createElement('div');
-        let l1 = document.createElement('label');
-        let s1 = document.createElement('select');
-        var o1 = document.createElement('option');
-        var o2 = document.createElement('option');
-        var o3 = document.createElement('option');
-        let fg2 = document.createElement('div');
-        let l2 = document.createElement('label');
-        let i2 = document.createElement('input');
-        let fg3 = document.createElement('div');
-        let l3 = document.createElement('label');
-        let i3 = document.createElement('input');
-        let fg4 = document.createElement('div');
-        let l4 = document.createElement('label');
-        let i4 = document.createElement('input');
-        mCont.classList.add('row'); 
-        type.classList.add('col-md-3'); 
-        code.classList.add('col-md-2'); 
-        phone.classList.add('col-md-5'); 
-        ext.classList.add('col-md-2'); 
-
-        set.type = s1;
-        set.code = i2;
-        set.number = i3;
-        set.ext = i4;
-        //phone type
-        fg1.classList.add('form-group');
-        l1.classList.add('text-left', 'w-100');
-        l1.setAttribute('for', `${x}-new-phone-type-${counter}`);
-        l1.innerHTML = '<small>Phone Type</small>';
-        s1.classList.add('form-control', 'form-control-sm');
-        s1.setAttribute('name', `${x}-new-phone-type-${counter}`);
-        s1.setAttribute('id', `${x}-new-phone-type-${counter}`);
-        
-        o1.setAttribute('value', 'office');
-        o2.setAttribute('value', 'mobile');
-        o3.setAttribute('value', 'other');
-        o1.innerHTML = 'Office';
-        o2.innerHTML = 'Mobile';
-        o3.innerHTML = 'Others';
-        s1.appendChild(o1);
-        s1.appendChild(o2);
-        s1.appendChild(o3);
-        fg1.appendChild(l1);
-        fg1.appendChild(s1);
-        type.appendChild(fg1);
-        mCont.appendChild(type);
-
-        //phone code
-        fg2.classList.add('form-group');
-        l2.classList.add('text-left', 'w-100');
-        l2.setAttribute('for', `${x}-new-phone-code-${counter}`);
-        l2.innerHTML = '<small>Code</small>';
-        i2.classList.add('form-control', 'form-control-sm');
-        i2.setAttribute('name', `${x}-new-phone-code-${counter}`);
-        i2.setAttribute('id', `${x}-new-phone-code-${counter}`);
-        i2.setAttribute('type', `text`);
-        i2.value = A;
-        fg2.appendChild(l2);
-        fg2.appendChild(i2);
-        code.appendChild(fg2);
-        mCont.appendChild(code);
-
-        //phone
-        fg3.classList.add('form-group');
-        l3.classList.add('text-left', 'w-100');
-        l3.setAttribute('for', `${x}-new-phone-code-${counter}`);
-        l3.innerHTML = '<small>Phone</small>';
-        i3.classList.add('form-control', 'form-control-sm');
-        i3.setAttribute('name', `${x}-new-phone-code-${counter}`);
-        i3.setAttribute('id', `${x}-new-phone-code-${counter}`);
-        i3.setAttribute('type', `text`);
-        fg3.appendChild(l3);
-        fg3.appendChild(i3);
-        phone.appendChild(fg3);
-        mCont.appendChild(phone);
-
-        //phone ext
-        fg4.classList.add('form-group');
-        l4.classList.add('text-left', 'w-100');
-        l4.setAttribute('for', `${x}-new-phone-code-${counter}`);
-        l4.innerHTML = '<small>Extension</small>';
-        i4.classList.add('form-control', 'form-control-sm');
-        i4.setAttribute('name', `${x}-new-phone-code-${counter}`);
-        i4.setAttribute('id', `${x}-new-phone-code-${counter}`);
-        i4.setAttribute('type', `text`);
-        fg4.appendChild(l4);
-        fg4.appendChild(i4);
-        ext.appendChild(fg4);
-        mCont.appendChild(ext);
-        
-        P.appendChild(mCont);
-        
-        set.type = s1;
-        set.code = i2;
-        set.number = i3;
-        set.ext = i4;
-        
-        globalCounters.phone[`${x}Set`].push(set);
-    }
-    
+      
     const psuedoBtn1 = document.getElementsByClassName('pseudo-btn-1');
     Array.prototype.forEach.call(psuedoBtn1, btn => {
         btn.addEventListener('click', () => {
@@ -452,12 +318,22 @@ window.onload = function () {
                     }
             });
             var r = document.getElementById('on-doc-only');
+            var s = document.getElementById('package-only-1');
+            var t = document.getElementById('package-only-2');
             if (btn.getAttribute('id') == 'docs-btn') {
                 r.classList.remove('hide', 'throw-off');
                 r.classList.add('show');
+                s.classList.add('hide');
+                t.classList.add('hide');
+                s.classList.remove('show');
+                t.classList.remove('show');
             } else {
                 r.classList.add('hide', 'throw-off');
                 r.classList.remove('show');
+                s.classList.remove('hide');
+                t.classList.remove('hide');
+                s.classList.add('show');
+                t.classList.add('show');
             }
         });
         
@@ -483,8 +359,8 @@ window.onload = function () {
         row.classList.add('row');
         colQ.classList.add('col-md-1');
         colW.classList.add('col-md-1');
-        colD.classList.add('col-md-5');
-        colB.classList.add('col-md-5');
+        colD.classList.add('col-md-4', 'text-center');
+        colB.classList.add('col-md-6');
         
         let qD = document.createElement('div');
         let qI = document.createElement('input');
@@ -553,5 +429,128 @@ window.onload = function () {
         gray.appendChild(row);
         box.appendChild(gray);
         document.getElementById('box-area').appendChild(box);
+    }
+    
+    const weightEl = document.getElementById('weight');
+    const dimensionEl = document.getElementById('dimension');
+    
+    function weightMenu() {
+        var menuW = weightEl.children[0];
+        if (menuW.classList.contains('show-menu')) {
+            menuW.classList.remove('show-menu');
+        } else {
+            menuW.classList.add('show-menu');
+        }
+    }
+    
+    function dimensionMenu() {
+        var menuD = dimensionEl.children[0];
+        if (menuD.classList.contains('show-menu')) {
+            menuD.classList.remove('show-menu');
+        } else {
+            menuD.classList.add('show-menu');
+        }
+    }
+
+    // Universal click listener (whole document)
+    
+    document.addEventListener('click', e => {
+        let dimensionChev = document.getElementById('show-dimension');
+        let weightChev = document.getElementById('show-weight');
+        let dimensionUnit = document.getElementById('dimension-unit');
+        let weightUnit = document.getElementById('weight-unit');
+    
+        if (e.target == weightChev || e.target == weightUnit || e.target == weightEl) {
+            weightMenu();
+        } else {
+            var menu1 = weightEl.children[0];
+            menu1.classList.remove('show-menu');
+        }
+
+        if (e.target == dimensionChev || e.target == dimensionUnit || e.target == dimensionEl) {
+            dimensionMenu();
+        } else {
+            var menu2 = dimensionEl.children[0];
+            menu2.classList.remove('show-menu');
+        }
+    });
+    
+    Array.prototype.forEach.call(document.getElementsByClassName('units'), u => {
+        u.addEventListener('click', () => {
+            var v = u.getAttribute('data-value');
+            var t = u.getAttribute('data-set-to');
+            document.getElementById(t).innerHTML = `(${v})`;
+        });
+    });
+    
+    document.getElementById('add-item').addEventListener('click', e => {
+            e.preventDefault();
+            addItem();
+    });
+    addItem();
+    function addItem() {
+        let itemArea = document.getElementById('item-area');
+        let row = document.createElement('div');
+        row.classList.add('row');
+        let col1 = document.createElement('div');
+        col1.classList.add('col-md-2');
+        let col2 = document.createElement('div');
+        col2.classList.add('col-md-6');
+        let col3 = document.createElement('div');
+        col3.classList.add('col-md-4');
+        let fg1 = document.createElement('div');
+        let fg2 = document.createElement('div');
+        let fg3 = document.createElement('div');
+        fg1.classList.add('form-group');
+        fg2.classList.add('form-group');
+        fg3.classList.add('form-group');
+        let in1 = document.createElement('input');
+        let in2 = document.createElement('input');
+        let in3 = document.createElement('input');
+        in1.setAttribute('type', 'text');
+        in2.setAttribute('type', 'text');
+        in3.setAttribute('type', 'text');
+        in3.classList.add('item-value');
+        
+        in3.addEventListener('input', () => {
+            addItemValues();
+        });
+        in1.classList.add('form-control');
+        in2.classList.add('form-control');
+        fg1.appendChild(in1);
+        col1.appendChild(fg1);
+        fg2.appendChild(in2);
+        col2.appendChild(fg2);
+        
+        let custom   = document.createElement('div');
+        let currency = document.createElement('div');
+        let i = document.createElement('i');
+        custom.classList.add('custom-input');
+        currency.classList.add('currency-symbol');
+        i.classList.add('fas', 'fa-dollar-sign');
+        currency.appendChild(i);
+        custom.appendChild(currency);
+        custom.appendChild(in3);
+        fg3.appendChild(custom);
+        col3.appendChild(fg3);
+        row.appendChild(col1);
+        row.appendChild(col2);
+        row.appendChild(col3);
+
+        itemArea.appendChild(row);
+        
+    }
+    
+    function addItemValues() {
+        const v = document.getElementsByClassName('item-value');
+        var total = 0;
+        Array.prototype.forEach.call(v, val => {
+            var s = val.value;
+            var x = s.replace(/[^0-9]/g, '');
+            val.value = x;
+
+            total = total + Number(x);
+            document.getElementById('total-ship-value').innerHTML = `${total}.00`;
+        });
     }
 }

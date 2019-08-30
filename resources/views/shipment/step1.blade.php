@@ -5,7 +5,9 @@
                 <div class="form-group">
                     <h5 class="text-left d-inline-block w-75 mb-4">From</h5>
                     <label for="from-country" class="text-left w-75"><small>Country / Territory</small></label>
-                    <select class="country-list w-75 d-inline-block form-control form-control-sm" name="from-country" id="from-country"></select>
+                    <select class="w-75 d-inline-block form-control form-control-sm" name="from-country" id="from-country">
+                        <option value="US" selected>United States</option>
+                    </select>
                 </div>
                 <div class="form-group">
                     <label class="text-left w-75"><small>Address</small></label>
