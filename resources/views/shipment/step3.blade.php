@@ -30,7 +30,7 @@
                             <span><small>US$ 120.00</small></span><br>
                             <span><small><a href="#">Details <i class="fas fa-chevron-down"></i></a></small></span>
                         </div>
-                        <button class="btn btn-dark float-right" style="margin-top: -1.5rem; margin-right: 1rem;">Make Payment</button>
+                        <button class="btn btn-yellow float-right" style="margin-top: -1.5rem; margin-right: 1rem;">Make Payment</button>
                     </div>
                     <div id="delivered-on" class="text-center" style="width: 225px;"><small>Shipped by:</small><br> 1 to 6 of Day(s)</div>
                 </div>

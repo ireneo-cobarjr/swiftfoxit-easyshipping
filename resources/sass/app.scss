@@ -490,8 +490,9 @@ footer {
 .qs-datepicker-container {
     width: 95%;
     box-shadow: none;
-    border-color: $pale-green;
     border-radius: 0;
+    border: 1px solid transparent;
+    background: #F2F2F2;
 }
 .qs-datepicker {
     
@@ -506,7 +507,7 @@ footer {
     }
 
     .qs-controls {
-        background: $dark-green;
+        background: $dark-blue;
         color: white;
         padding: .5em;
     }
@@ -517,12 +518,12 @@ footer {
         border-radius: 0;
         
         &:not(.qs-empty):not(.qs-disabled):not(.qs-day):not(.qs-active):hover {
-            background: $dark-green;
+            background: $dark-blue;
             color: white;
         }
         
         &.qs-active {
-            background: $light-pale-green;
+            background: $light-blue;
         }
     }
 }
@@ -540,7 +541,7 @@ footer {
     .dd-head {
         display: inline-block;
         width: 100%;
-        background: #208C83;
+        background: $dark-blue;
         color: white;
     }
     

@@ -6533,8 +6533,9 @@ footer .copyright {
 .qs-datepicker-container {
   width: 95%;
   box-shadow: none;
-  border-color: #3EB996;
   border-radius: 0;
+  border: 1px solid transparent;
+  background: #F2F2F2;
 }
 
 .qs-datepicker .qs-arrow.qs-right::after {
@@ -6546,7 +6547,7 @@ footer .copyright {
 }
 
 .qs-datepicker .qs-controls {
-  background: #208C83;
+  background: #0D47A1;
   color: white;
   padding: 0.5em;
 }
@@ -6558,12 +6559,12 @@ footer .copyright {
 }
 
 .qs-datepicker .qs-square:not(.qs-empty):not(.qs-disabled):not(.qs-day):not(.qs-active):hover {
-  background: #208C83;
+  background: #0D47A1;
   color: white;
 }
 
 .qs-datepicker .qs-square.qs-active {
-  background: #4BE9C3;
+  background: #90CAF9;
 }
 
 .delivery-details {
@@ -6581,7 +6582,7 @@ footer .copyright {
 .delivery-details .dd-head {
   display: inline-block;
   width: 100%;
-  background: #208C83;
+  background: #0D47A1;
   color: white;
 }
 
