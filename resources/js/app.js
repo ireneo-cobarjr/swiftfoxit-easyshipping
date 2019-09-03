@@ -7,6 +7,17 @@
 require('./bootstrap');
 import Countries from 'countries-list';
 import datepicker from 'js-datepicker';
+var Trianglify = require('trianglify');
+
+var pattern = Trianglify({
+        width: 1200,
+        height: 125,
+        x_colors: ['#f9e46c','#F5D416', '#dcbd09'],
+        variance: .52,
+        cell_size: 30,
+        stroke_width: 8,
+        seed: 'super'
+    });
 
 const globalCounters = {
     phone: {
@@ -18,6 +29,7 @@ const globalCounters = {
 };
 
 window.onload = function () {
+    document.querySelector('.nav-spacer').appendChild(pattern.canvas());
     var old_date = '';
     const picker = datepicker('#date-picker', { 
         alwaysShow: true,

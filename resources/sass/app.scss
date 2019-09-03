@@ -6,6 +6,7 @@ $dark-green: #208C83;
 
 $dark-blue: #0D47A1;
 $light-blue: #90CAF9;
+$prime-yellow: #F5D416;
 
 //FA fixes
 .fa, .fas {
@@ -44,7 +45,7 @@ html {
     background-color: $dark-blue;
     
     &:hover {
-        colo: white !important;
+        color: white !important;
     }
 }
 
@@ -57,19 +58,26 @@ html {
 }
 
 .nav-link {
-	color: white !important;
 	margin-left: 15px;
+    font-weight: 500;
+    
+    &.nav-black {
+        color: #4a525a !important;
+    }
+    &.nav-white {
+        color: white !important;
+    }
 }
 
 .nav-spacer {
 	height: 125px;
 	width: 100vw;
-	background-color: gray;
-	background-image: url("img/inner_header_gray.png");
+	background-color: $prime-yellow;
 	background-repeat: no-repeat;
 	background-size: cover;
     position: relative;
     z-index: 1;
+    overflow: hidden;
     
     &::before {
         position: absolute;
@@ -79,8 +87,12 @@ html {
         display: block;
         width: 100%;
         height: 100%;
-        background-image: linear-gradient(160deg,#263238 5%, #1E88E5, #0D47A1);
         z-index: -1;
+    }
+    
+    canvas {
+        width: 100% !important;
+        height: 100% !important;
     }
 }
 
@@ -93,12 +105,19 @@ html {
 }
 
 .card-type {
-	box-shadow:	0 1px 5px rgba(0,0,0,0.1);
-	background-color: white;
+	background-color: $prime-yellow;
     position: relative;
     transition: all 0.4s linear;
     position: relative;
     min-height: 350px;
+    
+    .on-yellow {
+        border: 1px solid #F5D416 !important;
+        
+        &.form-control {
+            display: inline-block !important;
+        }
+    }
 }
 
 .card-mid-divided {
@@ -153,9 +172,8 @@ html {
 }
 
 #create-shipment-3-summary {
-    width:  100%;
-    margin-top: -15px;
-    background-color: #E9E9E9;
+    width: calc(100% + 2px);
+    margin: -17px -1px 0 -1px;    background-color: #E9E9E9;
 	background-image: url("img/inner_header_gray.png");
     position: relative;
     z-index: 5;
@@ -269,6 +287,11 @@ html {
             outline: none;
             width: 100px;
         }
+    }
+    
+    &.white-card {
+        border: 1px solid white !important;
+        background-color: white;
     }
 }
 
@@ -453,7 +476,7 @@ footer {
 }
 
 .notice-area {
-    background-color: #E9E9E9;
+    background-color: #fff;
     padding: .5em;
     transition: all 0.4s linear;
 }
@@ -613,4 +636,7 @@ footer {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
-
+#ship-type-column {
+    background-color: white;
+    padding: .8em 1.2em;
+}

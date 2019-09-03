@@ -1,8 +1,9 @@
 @extends('layout')
 
 @section('title', 'Ship')
+@section('navbar', 'black')
 
-@section('body-background', '#f1f1f1')
+@section('body-background', 'white')
 
 @section('content')
 	<div class="nav-spacer"></div>
@@ -23,7 +24,7 @@
                     @include('shipment.step2')
                     @include('shipment.step3')
                     <div class="d-flex flex-row-reverse mt-5" id="end-on-final">
-                        <button class="btn btn-blue" id="create-shipment-next" id-process="step1">Next</button>
+                        <button class="btn btn-blue mr-3" id="create-shipment-next" id-process="step1">Next</button>
                     </div>
                 </div>
                 </form>

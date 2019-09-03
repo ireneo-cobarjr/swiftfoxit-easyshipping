@@ -22,7 +22,9 @@
   >
 
     {{-- navbar --}}
-    @include('components.navbar')
+    @component('components.navbar')
+        @yield('navbar')
+    @endcomponent
 
     <div id="main">
         @yield('content')

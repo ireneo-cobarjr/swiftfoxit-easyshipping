@@ -1,6 +1,7 @@
 @extends('layout')
 
 @section('title', 'Home')
+@section('navbar', 'white')
 @section('content')
 	<section class="container-fluid" id="home-banner">
 		<div class="container">

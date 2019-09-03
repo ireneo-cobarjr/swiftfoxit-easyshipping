@@ -1,15 +1,17 @@
 <div class="row">
     <div class="col-md-4">
-        <h3>What will you ship?</h3>
-        <div class="mt-3 mb-1">
-            <div class="pseudo-btn-1" id="docs-btn"><i class="fas fa-file-alt"></i> <span>Documents</span></div>
-            <span class="text-muted misc-aside"><small>Documents include legal, financial or business paperwork. Items with monetary value are NOT considered a document shipment. </small></span>
+        <div id="ship-type-column">
+            <h3>What will you ship?</h3>
+            <div class="mt-3 mb-1">
+                <div class="pseudo-btn-1" id="docs-btn"><i class="fas fa-file-alt"></i> <span>Documents</span></div>
+                <span class="text-muted misc-aside"><small>Documents include legal, financial or business paperwork. Items with monetary value are NOT considered a document shipment. </small></span>
+            </div>
+            <div class="mt-3 mb-3">
+                <div class="pseudo-btn-1" id="packages-btn"><i class="fas fa-box"></i> <span>Packages</span></div>
+                <span class="text-muted misc-aside"><small>Packages are goods, merchandise or commodities for personal or commercial purposes. </small></span>
+            </div>
+            <p>Not sure if its a Document or Package? <br><small><i class="fas fa-chevron-right"></i> <a href="#">We can help you decide.</a></small></p>
         </div>
-        <div class="mt-3 mb-3">
-            <div class="pseudo-btn-1" id="packages-btn"><i class="fas fa-box"></i> <span>Packages</span></div>
-            <span class="text-muted misc-aside"><small>Packages are goods, merchandise or commodities for personal or commercial purposes. </small></span>
-        </div>
-        <p>Not sure if its a Document or Package? <br><small><i class="fas fa-chevron-right"></i> <a href="#">We can help you decide.</a></small></p>
     </div>
     <div class="col-md-8">
         <div class="notices">
@@ -22,7 +24,7 @@
                         <h6>Prohibited Items</h6>
                         <span><small>Some items are prohibited to ship on this country. <a href="#">See prohibitied items.</a></small></span>
                     </div>
-                    <div class="border-gray-panel misc-on-select hide" id="package-only-1">
+                    <div class="border-gray-panel white-card misc-on-select hide" id="package-only-1">
                         <div class="d-flex">
                             <h5 class="mb-0">What is the value of your shipment?</h5>
                                     <div class="currency-symbol ml-auto">
@@ -36,11 +38,11 @@
                                 <div class="col-md-3">Value</div>
                             </div>
                             <div id="item-area"></div>
-                            <button class="btn btn-sm btn-yellow" id="add-item">Add Item</button>
+                            <button class="btn btn-sm btn-blue" id="add-item">Add Item</button>
                         </div>
 
                     </div>
-                    <div class="border-gray-panel misc-on-select hide" id="package-only-2">
+                    <div class="border-gray-panel white-card misc-on-select hide" id="package-only-2">
                         <h5>Protect your Shipment</h5>
                         <p>You value your shipment and so we do - dont forget to protect your shipment! <br><i class="fas fa-chevron-right"></i> <a href="#"><small>Learn about our shipment protection options.</small></a></p>
                     </div>

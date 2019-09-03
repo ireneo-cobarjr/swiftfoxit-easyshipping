@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-transparent" id="navbar">
   <div class="container">
     <a class="navbar-brand" href="/">
-      <img src="img/logo_new_white.png" alt="header logo">
+      <img src="img/logo_new_black.png" alt="header logo">
     </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -18,11 +18,11 @@
 
         @foreach ($links as $link)
           <li class="nav-item">
-            <a class="nav-link" href="{{ $link }}">{{ $link }}</a>
+            <a class="nav-link nav-{{ $slot }}" href="{{ $link }}">{{ $link }}</a>
           </li>
         @endforeach
           <li class="nav-item">
-            <a class="nav-link" href="login" style="margin-left:50px;">Log In</a>
+            <a class="nav-link nav-{{ $slot }}" href="login" style="margin-left:50px;">Log In</a>
           </li>
 
       </ul>

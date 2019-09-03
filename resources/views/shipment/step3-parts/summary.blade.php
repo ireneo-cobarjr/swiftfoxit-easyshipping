@@ -21,7 +21,7 @@
         </div>
         <div class="col-md-2">
             <div class="d-flex justify-content-center align-items-center w-100 h-100">
-                <button class="btn btn-yellow btn-sm" id="back-step-2"><i class="fas fa-edit"></i> Edit</button>
+                <button class="btn btn-light btn-sm" id="back-step-2"><i class="fas fa-edit"></i> Edit</button>
             </div>
         </div>
     </div>
