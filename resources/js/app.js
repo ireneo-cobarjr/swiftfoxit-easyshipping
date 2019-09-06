@@ -1,568 +1,440 @@
-/**
- * First, we will load all of this project's Javascript utilities and other
- * dependencies. Then, we will be ready to develop a robust and powerful
- * application frontend using useful Laravel and JavaScript libraries.
- */
-
-require('./bootstrap');
 import Countries from 'countries-list';
-import datepicker from 'js-datepicker';
-var Trianglify = require('trianglify');
+import jump from 'jump.js';
 
-var pattern = Trianglify({
-        width: 1200,
-        height: 125,
-        x_colors: ['#f9e46c','#F5D416', '#dcbd09'],
-        variance: .52,
-        cell_size: 30,
-        stroke_width: 8,
-        seed: 'super'
-    });
+let selectCountry = document.querySelector('.country-list');
+let fromCountry = document.getElementById('from-country');
+let toCountry = document.getElementById('to-country');
+let fromCity = document.getElementById('from-city');
+let toCity = document.getElementById('to-city');
 
-const globalCounters = {
-    phone: {
-            to: 0,
-            from: 0,
-            toSet: [],
-            fromSet: []
-        } 
+
+setCountryList();
+
+////shipment object
+let shipment = {
+    from: {
+            country: "",
+            city: "",
+            state: "",
+            zipcode: "",
+            address: "",
+            name: "",
+            email: "",
+            phone: ""
+        },
+    to: {
+            country: "",
+            city: "",
+            state: "",
+            zipcode: "",
+            address: "",
+            name: "",
+            email: "",
+            phone: ""
+        },
+    item: [],
+    details: "",
+    status: 0
 };
 
-window.onload = function () {
-    document.querySelector('.nav-spacer').appendChild(pattern.canvas());
-    var old_date = '';
-    const picker = datepicker('#date-picker', { 
-        alwaysShow: true,
-        minDate: new Date(),
-        dateSelected: new Date(),
-        showAllDates: true,
-        onSelect: (picker, d) => {
-            var date = new Date(d);
-            if (d) {
-                old_date = d;
-                setDD(date);
-            } else {
-                picker.setDate(new Date(old_date), true);
-            }
-        }
-    });
-    
-    setDD(new Date(document.getElementById('date-picker').value));
-    function setDD(d) {
-        var date = document.querySelector('.delivery-date');
-        var day = document.querySelector('.delivery-day');
-        var year = document.querySelector('.delivery-year');
-        var month = document.querySelector('.delivery-month');
-        
-        var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-        var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-        
-        date.innerHTML = d.getDate();
-        day.innerHTML = days[d.getDay()];
-        year.innerHTML = d.getFullYear();
-        month.innerHTML = months[d.getMonth()];
-    }
-    
-    const Shipment = {
-        from: {
-                country: '',
-                cc: '',
-                flag: '',
-                address: '',
-                city: '',
-                state: '',
-                zip:'',
-                name:'',
-                company: '',
-                email: '',
-                phone: {
-                    number: '',
-                    code: '',
-                    ext: '',
-                    type: '',
-                    others: []
-                }
-            },
-        to: {
-                country: '',
-                address: '',
-                city: '',
-                state: '',
-                zip:'',
-                name:'',
-                company: '',
-                email: '',
-                phone: {
-                    number: '',
-                    code: '',
-                    ext: '',
-                    type: '',
-                    others: []
-                }
-        }
-    };
-	//country list
-	let selectCountry = document.getElementsByClassName('country-list');
-	Array.prototype.forEach.call(selectCountry, s => {
-		var c = Countries.countries;
-        for ( const C in c ) {
-            let option = document.createElement('option');
-            option.value = C;
-            option.innerHTML = `${c[C].name}`;
-            s.appendChild(option);
-        }
-	});
-    
-    const crtShipBtn = document.getElementById('create-shipment-next');
-    document.getElementById('back-step-2').addEventListener('click', e => {
-        e.preventDefault();
-        const step2 = document.getElementById('create-shipment-2');
-        const step3 = document.getElementById('create-shipment-3');
-        step3.classList.add('hide');
-        step3.classList.remove('show');
-        setTimeout(() => {
-            step3.classList.add('throw-off');
-            step2.classList.remove('throw-off');
-            step2.classList.remove('hide');
-            step2.classList.add('show');
-            document.querySelector('.card-type').classList.add('card-mid-divided');
-            const misc = document.querySelector('.misc');
-            const final = document.querySelector('#final');
-            misc.classList.remove('throw-off', 'hide');
-            final.classList.add('throw-off', 'hide');
-            misc.classList.add('show');
-            final.classList.remove('show');
+let boxes = [];
 
-
-        }, 500);
-        
-        crtShipBtn.setAttribute('id-process', 'step2');
-        crtShipBtn.innerHTML = "Next";
-        document.getElementById('end-on-final').classList.remove('hide');
-    });
-    
-    crtShipBtn.addEventListener('click', e => {
-            e.preventDefault();
-            
-            var step = crtShipBtn.getAttribute('id-process');
-            switch(step) {
-                case 'step1':
-                fromStep1();
-                break;
-                
-                case 'step2':
-                fromStep2();
-                crtShipBtn.innerHTML = "Get Quote";
-                break;
-                
-                case 'step3':
-                getQuotes();
-                break;
-                
-                default:
-                break;
-            }
-            
-            function getQuotes() {
-                const misc = document.querySelector('.misc');
-                const final = document.querySelector('#final');
-                
-                misc.classList.add('hide');
-                misc.classList.remove('show');
-                final.classList.remove('throw-off');
-
-                setTimeout(() => {
-                    misc.classList.add('throw-off');
-                    final.classList.remove('hide');
-                    final.classList.add('show');
-                }, 500);
-
-                crtShipBtn.setAttribute('id-process', 'final');
-                document.getElementById('end-on-final').classList.add('hide');
-            }
-            
-            function fromStep1() {
-                const step1 = document.getElementById('create-shipment-1');
-                const step2 = document.getElementById('create-shipment-2');
-                const step2From = document.getElementById('step-2-from-label');
-                const step2To = document.getElementById('step-2-to-label');
-                let cCodeF = document.getElementById('from-country').value;
-                let cCodeT = document.getElementById('to-country').value
-                
-                step2From.innerHTML = `From ${Countries.countries[cCodeF].emoji} ${Countries.countries[cCodeF].name}`;
-                step2To.innerHTML = `To ${Countries.countries[cCodeT].emoji} ${Countries.countries[cCodeT].name}`;
-                document.getElementById('from-phone-code').value = Countries.countries[cCodeF].phone;
-                document.getElementById('to-phone-code').value = Countries.countries[cCodeT].phone;
-                
-                //save data --from
-                Shipment.from.country = Countries.countries[cCodeF].name;
-                Shipment.from.cc = cCodeF;
-                Shipment.from.flag = Countries.countries[cCodeF].emoji;
-                Shipment.from.phone.code = Countries.countries[cCodeF].phone;
-                Shipment.from.address = document.getElementById('from-address').value;
-                Shipment.from.state = document.getElementById('from-state').value;
-                Shipment.from.city = document.getElementById('from-city').value;
-                Shipment.from.zip = document.getElementById('from-zipcode').value;
-                
-                //save data --to
-                Shipment.to.country = Countries.countries[cCodeT].name;
-                Shipment.to.cc = cCodeT;
-                Shipment.to.flag = Countries.countries[cCodeT].emoji;
-                Shipment.to.phone.code = Countries.countries[cCodeT].phone;
-                Shipment.to.address = document.getElementById('to-address').value;
-                Shipment.to.state = document.getElementById('to-state').value;
-                Shipment.to.city = document.getElementById('to-city').value;
-                Shipment.to.zip = document.getElementById('to-zipcode').value;
-                
-                
-                step1.classList.add('hide');
-                step1.classList.remove('show');
-                
-                setTimeout(() => {
-                    step1.classList.add('throw-off');
-                    step2.classList.remove('throw-off');
-                    step2.classList.remove('hide');
-                    step2.classList.add('show');
-                }, 500);
-                
-                crtShipBtn.setAttribute('id-process', 'step2');
-            }
-
-            function fromStep2() {
-                const step2 = document.getElementById('create-shipment-2');
-                const step3 = document.getElementById('create-shipment-3');
-                const step2From = document.getElementById('step-2-from-label');
-                const step2To = document.getElementById('step-2-to-label');
-                const card = document.querySelector('.card-mid-divided');
-                let cCodeF = document.getElementById('from-country').value;
-                let cCodeT = document.getElementById('to-country').value
-                
-              
-                
-                step2.classList.add('hide');
-                step2.classList.remove('show');
-                card.classList.remove('card-mid-divided');
-
-
-                //save data --from
-                Shipment.from.phone.number = document.getElementById('from-phone-number').value;
-                Shipment.from.phone.type = document.getElementById('from-phone-type').value;
-                Shipment.from.phone.ext = document.getElementById('from-phone-ext').value;
-                Shipment.from.zip = document.getElementById('from-zipcode').value;
-                Shipment.from.name = document.getElementById('from-name').value;
-                Shipment.from.company = document.getElementById('from-company').value;
-                Shipment.from.email = document.getElementById('from-email').value;
-
-                //save data --to
-                Shipment.to.phone.number = document.getElementById('to-phone-number').value;
-                Shipment.to.phone.type = document.getElementById('to-phone-type').value;
-                Shipment.to.phone.ext = document.getElementById('to-phone-ext').value;
-                Shipment.to.zip = document.getElementById('to-zipcode').value;
-                Shipment.to.name = document.getElementById('to-name').value;
-                Shipment.to.company = document.getElementById('to-company').value;
-                Shipment.to.email = document.getElementById('to-email').value;
-                
-                //check if extra numbers have been added
-                
-                if (globalCounters.phone.from > 0) {
-                    var a = globalCounters.phone.fromSet;
-                    
-                    if (a.length) {
-                        a.forEach(set => {
-                            if (set.number.value.length) {
-                                var x = {};
-                                x.number = set.number.value;
-                                x.code = set.code.value;
-                                x.ext = set.ext.value;
-                                x.type = set.type.value;
-                                
-                                Shipment.from.phone.others.push(x);
-                            }  
-                        });
-                    }
-                }
-                
-                if (globalCounters.phone.to > 0) {
-                    var a = globalCounters.phone.toSet;
-                    
-                    if (a.length) {
-                        a.forEach(set => {
-                            if (set.number.value.length) {
-                                var x = {};
-                                x.number = set.number.value;
-                                x.code = set.code.value;
-                                x.ext = set.ext.value;
-                                x.type = set.type.value;
-                                
-                                Shipment.to.phone.others.push(x);
-                            }  
-                        });
-                    }
-                }
-                
-                document.getElementById('summary-from-country').innerHTML = `${Shipment.from.flag} ${Shipment.from.country}`;
-                document.getElementById('summary-from-address').innerHTML = Shipment.from.address;
-                document.getElementById('summary-from-csz').innerHTML = `${Shipment.from.city}, ${Shipment.from.state} ${Shipment.from.zip}`;
-                document.getElementById('summary-to-country').innerHTML = `${Shipment.to.flag} ${Shipment.to.country}`;
-                document.getElementById('summary-to-address').innerHTML = Shipment.to.address;
-                document.getElementById('summary-to-csz').innerHTML = `${Shipment.to.city}, ${Shipment.to.state} ${Shipment.to.zip}`;
-
-                setTimeout(() => {
-                    step2.classList.add('throw-off');
-                    step3.classList.remove('throw-off');
-                    step3.classList.remove('hide');
-                    step3.classList.add('show');
-                }, 500);
-                
-                crtShipBtn.setAttribute('id-process', 'step3');
-            }
-    });
-      
-    const psuedoBtn1 = document.getElementsByClassName('pseudo-btn-1');
-    Array.prototype.forEach.call(psuedoBtn1, btn => {
-        btn.addEventListener('click', () => {
-            Array.prototype.forEach.call(psuedoBtn1, b => b.classList.remove('clicked'));
-            btn.classList.add('clicked');
-
-            Array.prototype.forEach.call( document.getElementsByClassName('misc-on-select'), a => {
-                    if (a.classList.contains('hide')) {
-                        a.classList.remove('hide');
-                    }
-            });
-            var r = document.getElementById('on-doc-only');
-            var s = document.getElementById('package-only-1');
-            var t = document.getElementById('package-only-2');
-            if (btn.getAttribute('id') == 'docs-btn') {
-                r.classList.remove('hide', 'throw-off');
-                r.classList.add('show');
-                s.classList.add('hide');
-                t.classList.add('hide');
-                s.classList.remove('show');
-                t.classList.remove('show');
-            } else {
-                r.classList.add('hide', 'throw-off');
-                r.classList.remove('show');
-                s.classList.remove('hide');
-                t.classList.remove('hide');
-                s.classList.add('show');
-                t.classList.add('show');
-            }
-        });
-        
-    });
-    
-    document.getElementById('add-package').addEventListener('click', e => {
-        e.preventDefault();
-        createBox();
-    });
-    
-    createBox();
-    
-    function createBox() {
-        let box = document.createElement('div');
-        let row = document.createElement('div');
-        let colQ = document.createElement('div');
-        let colW = document.createElement('div');
-        let colD = document.createElement('div');
-        let colB = document.createElement('div');
-        let gray = document.createElement('div');
-        
-        box.classList.add('box');
-        row.classList.add('row');
-        colQ.classList.add('col-md-1');
-        colW.classList.add('col-md-1');
-        colD.classList.add('col-md-4', 'text-center');
-        colB.classList.add('col-md-6');
-        
-        let qD = document.createElement('div');
-        let qI = document.createElement('input');
-        qD.classList.add('box-input');
-        qI.classList.add('form-control', 'quantity');
-        qI.setAttribute('type', 'text');
-        
-        qD.appendChild(qI);
-        colQ.appendChild(qD);
-
-        let wD = document.createElement('div');
-        let wI = document.createElement('input');
-        wD.classList.add('box-input');
-        wI.classList.add('form-control', 'weight');
-        wI.setAttribute('type', 'text');
-        
-        wD.appendChild(wI);
-        colW.appendChild(wD);
-
-        let dD = document.createElement('div');
-        let dI1 = document.createElement('input');
-        let dI2 = document.createElement('input');
-        let dI3 = document.createElement('input');
-        let dT1 = document.createElement('i');
-        let dT2 = document.createElement('i');
-        dD.classList.add('box-input');
-        dI1.classList.add('form-control', 'dimension');
-        dI1.setAttribute('type', 'text');
-        dI2.classList.add('form-control', 'dimension');
-        dI2.setAttribute('type', 'text');
-        dI3.classList.add('form-control', 'dimension');
-        dI3.setAttribute('type', 'text');
-        dT1.classList.add('fas', 'fa-times');
-        dT2.classList.add('fas', 'fa-times');
-        
-        dD.appendChild(dI1);
-        dD.appendChild(dT1);
-        dD.appendChild(dI2);
-        dD.appendChild(dT2);
-        dD.appendChild(dI3);
-        
-        colD.appendChild(dD);
-        
-        let bD = document.createElement('div');
-        let bB = document.createElement('button');
-        let bI = document.createElement('i');
-        bD.classList.add('w-100', 'h-100', 'd-flex', 'justify-content-end', 'align-items-center');
-        bI.classList.add('fas', 'fa-trash');
-        bB.classList.add('btn', 'btn-dark', 'btn-sm', 'delete-package');
-        
-        bB.appendChild(bI);
-        bB.innerHTML = `${bB.innerHTML} Delete`;
-        bB.addEventListener('click', e => {
-                e.preventDefault();
-                document.getElementById('box-area').removeChild(box);
-        });
-        bD.appendChild(bB);
-
-        colB.appendChild(bD);
-        row.appendChild(colQ);
-        row.appendChild(colW);
-        row.appendChild(colD);
-        row.appendChild(colB);
-        
-        gray.classList.add('gray-panel');
-        gray.appendChild(row);
-        box.appendChild(gray);
-        document.getElementById('box-area').appendChild(box);
-    }
-    
-    const weightEl = document.getElementById('weight');
-    const dimensionEl = document.getElementById('dimension');
-    
-    function weightMenu() {
-        var menuW = weightEl.children[0];
-        if (menuW.classList.contains('show-menu')) {
-            menuW.classList.remove('show-menu');
-        } else {
-            menuW.classList.add('show-menu');
-        }
-    }
-    
-    function dimensionMenu() {
-        var menuD = dimensionEl.children[0];
-        if (menuD.classList.contains('show-menu')) {
-            menuD.classList.remove('show-menu');
-        } else {
-            menuD.classList.add('show-menu');
-        }
-    }
-
-    // Universal click listener (whole document)
-    
-    document.addEventListener('click', e => {
-        let dimensionChev = document.getElementById('show-dimension');
-        let weightChev = document.getElementById('show-weight');
-        let dimensionUnit = document.getElementById('dimension-unit');
-        let weightUnit = document.getElementById('weight-unit');
-    
-        if (e.target == weightChev || e.target == weightUnit || e.target == weightEl) {
-            weightMenu();
-        } else {
-            var menu1 = weightEl.children[0];
-            menu1.classList.remove('show-menu');
-        }
-
-        if (e.target == dimensionChev || e.target == dimensionUnit || e.target == dimensionEl) {
-            dimensionMenu();
-        } else {
-            var menu2 = dimensionEl.children[0];
-            menu2.classList.remove('show-menu');
-        }
-    });
-    
-    Array.prototype.forEach.call(document.getElementsByClassName('units'), u => {
-        u.addEventListener('click', () => {
-            var v = u.getAttribute('data-value');
-            var t = u.getAttribute('data-set-to');
-            document.getElementById(t).innerHTML = `(${v})`;
-        });
-    });
-    
-    document.getElementById('add-item').addEventListener('click', e => {
-            e.preventDefault();
-            addItem();
-    });
-    addItem();
-    function addItem() {
-        let itemArea = document.getElementById('item-area');
-        let row = document.createElement('div');
-        row.classList.add('row');
-        let col1 = document.createElement('div');
-        col1.classList.add('col-md-2');
-        let col2 = document.createElement('div');
-        col2.classList.add('col-md-6');
-        let col3 = document.createElement('div');
-        col3.classList.add('col-md-4');
-        let fg1 = document.createElement('div');
-        let fg2 = document.createElement('div');
-        let fg3 = document.createElement('div');
-        fg1.classList.add('form-group');
-        fg2.classList.add('form-group');
-        fg3.classList.add('form-group');
-        let in1 = document.createElement('input');
-        let in2 = document.createElement('input');
-        let in3 = document.createElement('input');
-        in1.setAttribute('type', 'text');
-        in2.setAttribute('type', 'text');
-        in3.setAttribute('type', 'text');
-        in3.classList.add('item-value');
-        
-        in3.addEventListener('input', () => {
-            addItemValues();
-        });
-        in1.classList.add('form-control');
-        in2.classList.add('form-control');
-        fg1.appendChild(in1);
-        col1.appendChild(fg1);
-        fg2.appendChild(in2);
-        col2.appendChild(fg2);
-        
-        let custom   = document.createElement('div');
-        let currency = document.createElement('div');
-        let i = document.createElement('i');
-        custom.classList.add('custom-input');
-        currency.classList.add('currency-symbol');
-        i.classList.add('fas', 'fa-dollar-sign');
-        currency.appendChild(i);
-        custom.appendChild(currency);
-        custom.appendChild(in3);
-        fg3.appendChild(custom);
-        col3.appendChild(fg3);
-        row.appendChild(col1);
-        row.appendChild(col2);
-        row.appendChild(col3);
-
-        itemArea.appendChild(row);
-        
-    }
-    
-    function addItemValues() {
-        const v = document.getElementsByClassName('item-value');
-        var total = 0;
-        Array.prototype.forEach.call(v, val => {
-            var s = val.value;
-            var x = s.replace(/[^0-9]/g, '');
-            val.value = x;
-
-            total = total + Number(x);
-            document.getElementById('total-ship-value').innerHTML = `${total}.00`;
-        });
+function setCountryList() {
+    var c = Countries.countries;
+    for ( const C in c ) {
+        let option = document.createElement('option');
+        option.value = C;
+        option.innerHTML = `${c[C].name}`;
+        selectCountry.appendChild(option);
     }
 }
+
+const blinker = document.querySelector('.blinker');
+const blinkTriggers = document.getElementsByClassName("blink-trigger");
+const shipSlogan = document.getElementById('ship-slogan');
+
+Array.prototype.forEach.call(blinkTriggers, t => {
+    t.addEventListener( 'click', () => {
+        let bt = t.getAttribute('blinker-target');
+        let target = document.getElementById(bt);
+        let source = document.getElementById(t.getAttribute('blinker-from'));
+        
+        switch(bt) {
+            case 'blinker-item-2':
+            shipSlogan.classList.remove('hide');
+            toItem2();
+            break;
+            
+            case 'blinker-item-3':
+            shipSlogan.classList.add('hide');
+            changeView();
+            break;
+
+            case 'blinker-item-4':
+            summaryBoxes();
+            summaryCountries();
+            changeView();
+            jump('#summary-2', {offset: -100});
+            break;
+            
+            default:
+            break;
+        }
+
+        function toItem2() {
+            if (shipment.status == 2) {
+                shipment.from.country = fromCountry.value;
+                shipment.to.country = toCountry.value;
+                shipment.from.city = fromCity.value;
+                shipment.to.city = toCity.value;
+                changeView();
+            } else {
+                if (toCity.value.length > 2 && fromCity.value.length > 2) {
+                    shipment.from.country = fromCountry.value;
+                    shipment.to.country = toCountry.value;
+                    shipment.from.city = fromCity.value;
+                    shipment.to.city = toCity.value;
+                    changeView();
+                }
+            }
+            console.log(shipment);
+        }
+        
+        function changeView() {
+            source.classList.add('hide');
+            source.classList.remove('show');
+            
+            setTimeout(
+            () => {
+                source.classList.add('throw-off');
+                target.classList.remove('throw-off');
+                target.classList.add('show');
+                target.classList.remove('hide');
+            }
+            ,500);
+        }
+    });
+    
+ });
+
+document.getElementById('add-box').addEventListener('click', e => {
+    e.preventDefault();
+    addBox();
+});
+addBox();
+function addBox() {
+    let row = document.createElement('div');
+    let col1 = document.createElement('div');
+    let col2 = document.createElement('div');
+    let col3 = document.createElement('div');
+    let col4 = document.createElement('div');
+    let col5 = document.createElement('div');
+    let fg1 = document.createElement('div');
+    let fg2 = document.createElement('div');
+    let fg3 = document.createElement('div');
+    let fg4 = document.createElement('div');
+    let fg5 = document.createElement('div');
+    let weight = document.createElement('input');
+    let length = document.createElement('input');
+    let width  = document.createElement('input');
+    let height = document.createElement('input');
+    let s1  = document.createElement('select');
+    let optT1 = document.createElement('option');
+    let optT2 = document.createElement('option');
+    let optT3 = document.createElement('option');
+    
+    optT1.selected = true;
+    optT1.disabled = true;
+    optT1.value = "";
+    optT1.innerHTML = "Shipment type";
+    optT2.value = "Box";
+    optT2.innerHTML = "Box";
+    optT3.value = "Document";
+    optT3.innerHTML = "Document";
+    
+    s1.classList.add('form-control', 'form-control-sm', 'input-1', 'gray', 'd-inline-block');
+    
+    weight.setAttribute('type', 'text');
+    weight.setAttribute('placeholder', 'weight');
+    weight.classList.add('form-control', 'form-control-sm', 'input-1', 'gray');
+
+    length.setAttribute('type', 'text');
+    length.setAttribute('placeholder', 'length');
+    length.classList.add('form-control', 'form-control-sm', 'input-1', 'gray');
+    
+    width.setAttribute('type', 'text');
+    width.setAttribute('placeholder', 'width');
+    width.classList.add('form-control', 'form-control-sm', 'input-1', 'gray');
+
+    height.setAttribute('type', 'text');
+    height.setAttribute('placeholder', 'height');
+    height.classList.add('form-control', 'form-control-sm', 'input-1', 'gray');
+    
+    weight.addEventListener('input', e => {
+        e.target.value = formatBox('weight', numbers(e.target.value));
+    });
+    length.addEventListener('input', e => {
+        e.target.value = formatBox('dimension', numbers(e.target.value));
+    });
+    width.addEventListener('input', e => {
+        e.target.value = formatBox('dimension', numbers(e.target.value));
+    });
+    height.addEventListener('input', e => {
+        e.target.value = formatBox('dimension', numbers(e.target.value));
+    });
+    row.classList.add('row', 'mt-3');
+    col1.classList.add('col-md-3');
+    col2.classList.add('col-md-2');
+    col3.classList.add('col-md-2');
+    col4.classList.add('col-md-2');
+    col5.classList.add('col-md-2');
+
+    fg1.classList.add('form-group');
+    fg2.classList.add('form-group');
+    fg3.classList.add('form-group');
+    fg4.classList.add('form-group');
+    fg5.classList.add('form-group');
+    
+    appendChilds(s1, [optT1, optT2, optT3]);
+    fg1.appendChild(s1);
+    col1.appendChild(fg1);
+    row.appendChild(col1);
+    
+    fg2.appendChild(weight);
+    col2.appendChild(fg2);
+    row.appendChild(col2);
+
+    fg3.appendChild(length);
+    col3.appendChild(fg3);
+    row.appendChild(col3);
+    
+    fg4.appendChild(width);
+    col4.appendChild(fg4);
+    row.appendChild(col4);
+    
+    fg5.appendChild(height);
+    col5.appendChild(fg5);
+    row.appendChild(col5);
+   
+    document.getElementById('box-area').appendChild(row);
+ 
+    var box = {
+        s: s1,
+        ww: weight,
+        wd: width,
+        ld: length,
+        hd: height
+    };
+    
+    boxes.push(box);
+}
+
+function summaryBoxes() {
+    let summary1 = document.getElementById('summary-1');
+    let x = summary1.children;
+    if(x.length > 1) {
+        do { summary1.removeChild(x[1]); }
+        while (x.length > 1);
+    }
+    let total = 0;
+    let usedUnit = "";
+    boxes.forEach(box => {
+        if (box.ww.value != "") {
+            let flex  = document.createElement('div');
+            let flex1 = document.createElement('div');
+            let flex2 = document.createElement('div');
+            let flex3 = document.createElement('div');
+            let flex4 = document.createElement('div');
+            let flex5 = document.createElement('div');
+            
+            flex.classList.add('d-flex', 'justify-content-around', 'mb-4');
+            flex1.classList.add('summary1-item');
+            flex2.classList.add('summary1-item');
+            flex3.classList.add('summary1-item');
+            flex4.classList.add('summary1-item');
+            flex5.classList.add('summary1-item');
+            
+            flex1.innerHTML = box.s.value;
+            flex2.innerHTML = box.ww.value;
+            flex3.innerHTML = box.wd.value;
+            flex4.innerHTML = box.ld.value;
+            flex5.innerHTML = box.hd.value;
+            
+            total = total + Number(numbers(box.ww.value));
+            usedUnit = letters(box.ww.value);
+            
+            appendChilds(flex, [flex1, flex2, flex3, flex4, flex5]);
+            summary1.appendChild(flex);
+        }
+        document.getElementById('total-weight').innerHTML = `${total} ${usedUnit}`;
+    });
+}
+function appendChilds(p, C) {
+    C.forEach(c => {
+        p.appendChild(c);
+    });
+}
+
+/////front-end validation and saving data
+
+fromCity.addEventListener('input', e => {
+    let stat = shipment.status;
+    let x = e.target.value;
+    let s = letters(x);
+    e.target.value = s;
+    
+    if (s.length > 2) {
+        if (stat < 2) { shipment.status += 1; }
+    } else {
+        if (stat != 0) { shipment.status -= 1;}
+    }
+});
+
+toCity.addEventListener('input', e => {
+    let stat = shipment.status;
+    let x = e.target.value;
+    let s = letters(x);
+    e.target.value = s;
+    
+    if (s.length > 2) {
+        if (stat < 2) { shipment.status += 1; }
+    } else {
+        if (stat != 0) { shipment.status -= 1;}
+    }
+});
+
+function numbers(s) {
+    var x = s.replace(/[^0-9]/g, '');
+    return x;
+}
+
+function letters(s) {
+    var x = s.replace(/[^a-z\s]/i,'');
+    return x;
+}
+
+function validEmail(s) {
+    const validMail = /^(?:[a-z0-9!#$%&amp;'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&amp;'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])$/;
+    if (validMail.test(s.trim())) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+document.getElementById('box-units').addEventListener('change', e => {
+    formatBoxes(e.target.value);
+});
+
+function formatBox(type, v) {
+    let unit = document.getElementById('box-units').value;
+    if (type ==  'weight') {
+        switch (unit) {
+            case 'metric':
+            return `${v} kg`;
+            break;
+
+            case 'english':
+            return `${v} lb`;
+            break;
+
+            default:
+            break;
+        }
+    } else if (type == 'dimension') {
+        switch (unit) {
+            case 'metric':
+            return `${v} cm`;
+            break;
+
+            case 'english':
+            return `${v} in`;
+            break;
+
+            default:
+            break;
+        }
+    }
+
+}
+
+function formatBoxes(v) {
+    let unit = {w: "kg", d: "cm"};
+    if (v == 'english') {
+        unit.w = "lb";
+        unit.d = "in"; 
+    }
+    boxes.forEach(box => {
+        box.ww.value = `${numbers(box.ww.value)} ${unit.w}`;
+        box.wd.value = `${numbers(box.wd.value)} ${unit.d}`;
+        box.ld.value = `${numbers(box.ld.value)} ${unit.d}`;
+        box.hd.value = `${numbers(box.hd.value)} ${unit.d}`;
+    });
+}
+
+function summaryCountries() {
+    let cf = Countries.countries[shipment.from.country].name;
+    let ct = Countries.countries[shipment.to.country].name;
+    document.getElementById('summary-from-country').innerHTML = `From ${cf}`;
+    document.getElementById('summary-to-country').innerHTML = `To ${ct}`;
+    document.getElementById('summary-from-city').innerHTML = shipment.from.city;
+    document.getElementById('summary-to-city').innerHTML = shipment.to.city;
+}
+
+document.getElementById('summary-2-next').addEventListener('click', e => {
+    let z = document.getElementById('head1');
+    let y = document.getElementById('summary-2');
+    let x = e.target;
+    if (x.dataset.state == 'next') {
+        Array.prototype.forEach.call(document.getElementsByClassName('on-work'), w => w.disabled = true);
+        x.innerHTML = 'edit';
+        x.classList.add('btn-outline-dark', 'btn-rounded');
+        x.classList.remove('btn-blue', 'white');
+        y.classList.add('summary-done', 'yellow');
+        y.classList.remove('summary-working');
+        z.classList.add('on-hide');
+        x.dataset.state = 'edit';
+        document.getElementById('summary-3').classList.add('show');
+        jump('#summary-3', {offset: -100});
+    } else {
+        Array.prototype.forEach.call(document.getElementsByClassName('on-work'), w => w.disabled = false);
+        x.innerHTML = 'next';
+        x.classList.remove('btn-outline-dark', 'btn-rounded');
+        x.classList.add('btn-blue');
+        y.classList.remove('summary-done', 'yellow');
+        y.classList.add('summary-working', 'white');
+        z.classList.remove('on-hide');
+        x.dataset.state = 'next';
+    }
+});
+
+document.getElementById('summary-3-next').addEventListener('click', e => {
+    let z = document.getElementById('head2');
+    let y = document.getElementById('summary-3');
+    let x = e.target;
+    if (x.dataset.state == 'next') {
+        x.innerHTML = 'edit';
+        x.classList.add('btn-outline-dark', 'btn-rounded');
+        x.classList.remove('btn-blue', 'white');
+        y.classList.add('summary-done', 'yellow');
+        y.classList.remove('summary-working');
+        z.classList.add('on-hide');
+        x.dataset.state = 'edit';
+        document.getElementById('summary-4').classList.add('show', 'summary-final');
+        document.getElementById('summary-4').classList.remove('summary-working');
+        document.getElementById('ship-content').classList.add('done');
+        jump('#summary-4', {offset: -100});
+    } else {
+        x.innerHTML = 'next';
+        x.classList.remove('btn-outline-dark', 'btn-rounded');
+        x.classList.add('btn-blue');
+        y.classList.remove('summary-done', 'yellow');
+        y.classList.add('summary-working', 'white');
+        z.classList.remove('on-hide');
+        x.dataset.state = 'next';
+        document.getElementById('ship-content').classList.remove('done');
+        document.getElementById('summary-4').classList.remove('summary-final');
+        document.getElementById('summary-4').classList.add('summary-working');
+    }
+});
+console.log(jump);

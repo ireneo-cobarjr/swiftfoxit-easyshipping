@@ -20,3 +20,4 @@ Route::view('Track', 'track');
 Route::view('Help', 'help');
 Route::view('Pricing', 'pricing');
 Route::view('Ship', 'ship');
+Route::post('Ship', 'OrdersController@store');

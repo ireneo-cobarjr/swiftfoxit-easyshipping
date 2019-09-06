@@ -23,6 +23,7 @@
         "@fortawesome/fontawesome-free": "^5.10.2",
         "countries-list": "^2.4.3",
         "js-datepicker": "^5.0.2",
+        "jump.js": "^1.0.2",
         "trianglify": "^2.0.0"
     }
 }
