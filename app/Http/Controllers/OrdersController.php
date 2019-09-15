@@ -3,10 +3,16 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Mail\OrderConfirmation;
 use App\Order;
+use Illuminate\Support\Facades\Mail;
 
 class OrdersController extends Controller
 {
+    public function create () {
+        return view('ship');
+    }
+    
     public function store() {
     
         $data = request()->validate([
@@ -81,6 +87,11 @@ class OrdersController extends Controller
 
         $order->save();
         
+        return back();
+    }
+    
+    public function sendEmail() {
+        Mail::to('ireneo.cobar.jr@gmail.com')->send(new OrderConfirmation());
         return back();
     }
 }

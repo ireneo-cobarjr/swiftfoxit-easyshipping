@@ -1,5 +1,7 @@
 import Countries from 'countries-list';
+import axios from 'axios';
 import jump from 'jump.js';
+import makeElement from './makeElement.js'
 
 let selectCountry = document.querySelector('.country-list');
 let fromCountry = document.getElementById('from-country');
@@ -97,7 +99,6 @@ Array.prototype.forEach.call(blinkTriggers, t => {
                     changeView();
                 }
             }
-            console.log(shipment);
         }
         
         function changeView() {
@@ -269,6 +270,42 @@ function summaryBoxes() {
         document.getElementById('total-weight').innerHTML = `${total} ${usedUnit}`;
     });
 }
+
+addItems();
+function addItems() {
+    let itemArea = document.getElementById('item-area');
+    let row = makeElement({ classes: "box-row"});
+    let fg1 = makeElement({ classes: "form-group qty"});
+    let fg2 = makeElement({ classes: "form-group item p-3"});
+    let btnArea = makeElement({ classes: "button"});
+    let ico = makeElement({ el: "i", classes: "fas fa-trash"});
+    let qty = makeElement({
+        el: "input",
+        classes: "input-1 box-inputs",
+        attrs: ['placeholder="Qty"']
+    });
+    let itm = makeElement({
+        el: "input",
+        classes: "input-1 box-inputs",
+        attrs: ['placeholder="item"']
+    });
+    let btn = makeElement({
+        el: "button",
+        classes: "btn btn-outline-dark btn-sm",
+        event: [{
+            type: 'click',
+            method: () => { itemArea.removeChild(row); }
+        }]
+    });
+    
+    fg1.appendChild(qty);
+    fg2.appendChild(itm);
+    btn.appendChild(ico);
+    btnArea.appendChild(btn);
+    appendChilds(row, [fg1, fg2, btnArea]);
+    itemArea.appendChild(row);
+}
+
 function appendChilds(p, C) {
     C.forEach(c => {
         p.appendChild(c);
@@ -407,12 +444,14 @@ document.getElementById('summary-2-next').addEventListener('click', e => {
         x.dataset.state = 'next';
     }
 });
-
+const addItemBtn = document.getElementById('add-item');
 document.getElementById('summary-3-next').addEventListener('click', e => {
+    let itemArea = document.getElementById('item-area');
     let z = document.getElementById('head2');
     let y = document.getElementById('summary-3');
     let x = e.target;
     if (x.dataset.state == 'next') {
+        Array.prototype.forEach.call(document.getElementsByClassName('box-inputs'), w => w.disabled = true);
         x.innerHTML = 'edit';
         x.classList.add('btn-outline-dark', 'btn-rounded');
         x.classList.remove('btn-blue', 'white');
@@ -422,9 +461,11 @@ document.getElementById('summary-3-next').addEventListener('click', e => {
         x.dataset.state = 'edit';
         document.getElementById('summary-4').classList.add('show', 'summary-final');
         document.getElementById('summary-4').classList.remove('summary-working');
-        document.getElementById('ship-content').classList.add('done');
         jump('#summary-4', {offset: -100});
+        Array.prototype.forEach.call(itemArea.getElementsByClassName('btn'), b => b.disabled = true);
+        addItemBtn.disabled = true;
     } else {
+        Array.prototype.forEach.call(document.getElementsByClassName('box-inputs'), w => w.disabled = false);
         x.innerHTML = 'next';
         x.classList.remove('btn-outline-dark', 'btn-rounded');
         x.classList.add('btn-blue');
@@ -432,9 +473,23 @@ document.getElementById('summary-3-next').addEventListener('click', e => {
         y.classList.add('summary-working', 'white');
         z.classList.remove('on-hide');
         x.dataset.state = 'next';
-        document.getElementById('ship-content').classList.remove('done');
         document.getElementById('summary-4').classList.remove('summary-final');
         document.getElementById('summary-4').classList.add('summary-working');
+        Array.prototype.forEach.call(itemArea.getElementsByClassName('btn'), b => b.disabled = false);
+        addItemBtn.disabled = false;
     }
 });
-console.log(jump);
+
+addItemBtn.addEventListener('click', addItems);
+
+document.getElementById('send').addEventListener('click', () => {
+    let URL = document.getElementById('shipping').dataset.url;
+    console.log(URL);
+    axios.post(URL, {})
+    .then(function (response) {
+        console.log(response);
+    })
+    .catch(function (error) {
+        console.log(error);
+    });
+});

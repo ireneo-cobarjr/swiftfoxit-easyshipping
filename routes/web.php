@@ -19,5 +19,5 @@ Route::view('About', 'about');
 Route::view('Track', 'track');
 Route::view('Help', 'help');
 Route::view('Pricing', 'pricing');
-Route::view('Ship', 'ship');
-Route::post('Ship', 'OrdersController@store');
+Route::get('Ship', 'OrdersController@create');
+Route::post('Ship', 'OrdersController@sendEmail')->name('send');

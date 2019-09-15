@@ -6183,16 +6183,6 @@ footer .copyright {
   background: #F5D416;
 }
 
-#summary-3 textarea {
-  background: #EBEBEB;
-  border-color: #EBEBEB;
-}
-
-#summary-3 textarea.done {
-  background: transparent;
-  border-color: transparent;
-}
-
 .summary1-item {
   border-bottom: 1px solid #5C5C55;
   min-width: 100px;
@@ -6291,5 +6281,33 @@ footer .copyright {
 #summary-3.show,
 #summary-4.show {
   opacity: 1 !important;
+}
+
+.box-row {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding-left: 1.5rem !important;
+  padding-right: 1.5rem !important;
+}
+
+.box-row .qty {
+  width: 50px;
+}
+
+.box-row .qty input {
+  width: 100%;
+}
+
+.box-row .item {
+  flex-grow: 1;
+}
+
+.box-row .item input {
+  width: 100%;
+}
+
+.box-row .button {
+  width: 50px;
 }
 

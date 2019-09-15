@@ -394,16 +394,6 @@ footer {
     &.yellow {
         background: $prime-yellow;
     }
-    
-    textarea {
-        background: #EBEBEB;
-        border-color: #EBEBEB;
-        
-        &.done {
-            background: transparent;
-            border-color: transparent;
-        }
-    }
 }
 
 .summary1-item {
@@ -507,5 +497,31 @@ footer {
     
     &.show {
         opacity: 1 !important;
+    }
+}
+
+.box-row {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding-left: 1.5rem !important;    
+    padding-right: 1.5rem !important;    
+
+    .qty {
+        width: 50px;
+        
+        input {
+            width: 100%;
+        }
+    }
+    .item {
+        flex-grow: 1;
+        
+        input {
+            width: 100%;
+        }
+    }
+    .button {
+        width: 50px;
     }
 }

@@ -6,14 +6,13 @@
 @section('body-background', 'white')
 
 @section('content')
-	<div class="nav-spacer">
+    <div class="nav-spacer">
     </div>
 
     <div class="container-fluid text-center pt-5 pb-5 bg-yellow">
         <h2 style="font-weight: 400" id="ship-slogan">Get a Quote and Compare our Services</h2>
-        
         <div class="container p-3 w-75">
-            <form>
+            <form id="shipping" data-url="{{route('send')}}">
                 <div class="blinker pl-5 pr-5 mt-5">
                     <div class="blinker-item show" id="blinker-item-1">
                         <div class="row w-75">
@@ -117,6 +116,15 @@
                                     <div class="form-group">
                                         <input class="input-1 on-work" placeholder="zip code">
                                     </div>
+                                    <div class="form-group mt-5">
+                                        <input class="input-1 on-work" placeholder="Sender name">
+                                    </div>
+                                    <div class="form-group">
+                                        <input class="input-1 on-work" placeholder="Sender email">
+                                    </div>
+                                    <div class="form-group">
+                                        <input class="input-1 on-work" placeholder="Sender phone">
+                                    </div>
                                 </div>
                                 <div>
                                     <p id="summary-to-country">to Country</p>
@@ -130,6 +138,15 @@
                                     <div class="form-group">
                                         <input class="input-1 on-work" placeholder="zip code">
                                     </div>
+                                    <div class="form-group mt-5">
+                                        <input class="input-1 on-work" placeholder="Recipient name">
+                                    </div>
+                                    <div class="form-group">
+                                        <input class="input-1 on-work" placeholder="Recipient email">
+                                    </div>
+                                    <div class="form-group">
+                                        <input class="input-1 on-work" placeholder="Recipient phone">
+                                    </div>
                                 </div>
                             </div>
                             <div class="d-flex justify-content-center align-items-center">
@@ -138,12 +155,10 @@
                         </div>
                         <div class="summary white summary-working" id="summary-3">
                             <div class="sum-head mb-5" id="head2"><h3>Specify the contents of your shipment</h3></div>
-                            <div class="d-flex justify-content-around align-items-center mb-5">
-                                <div class="w-100">
-                                    <div class="form-group p-3">
-                                      <textarea class="form-control" rows="5" style="resize: none;" id="ship-content"></textarea>
-                                    </div> 
-                                </div>
+                            <div class="d-flex justify-content-right align-items-center pl-3">
+                                <button type="button" class="btn btn-dark" id="add-item" style="padding: .125rem .75rem">Add Item</button>
+                            </div>
+                            <div id="item-area">
                             </div>
                             <div class="d-flex justify-content-center align-items-center">
                                 <button type="button" class="btn btn-blue" id="summary-3-next" data-state="next">Next</button>
@@ -162,8 +177,9 @@
                                 Accept Terms and Conditions.
                               </label>
                             </div>
+                            @csrf
                             <div class="d-flex justify-content-center align-items-center">
-                                <button type="button" class="btn btn-blue">Pay and get the label</button>
+                                <button type="button" class="btn btn-blue" id="send">Pay and get the label</button>
                             </div>
                         </div>
                     </div> {{-- blinker item 4 --}}
@@ -171,9 +187,6 @@
                 </div> {{-- blinker --}}
             </form>
         </div>
-
-
     </div>
-
 @endsection
 
